@@ -39,7 +39,7 @@ Proyecto móvil que promueve hábitos de reciclaje y sustentabilidad. Incluye ma
 
 ## Guía de instalación y ejecución (paso a paso)
 
-### 0) Requisitos
+### Requisitos
 - Python 3.10 o 3.11 (recomendado). Verifica con:
   ```bash
   python --version
@@ -59,16 +59,10 @@ Proyecto móvil que promueve hábitos de reciclaje y sustentabilidad. Incluye ma
   .\venv\Scripts\Activate.ps1
   ```
 
-- Windows (CMD):
+- Windows (CMD, Terminal VSCode):
   ```cmd
   python -m venv venv
   .\venv\Scripts\activate.bat
-  ```
-
-- macOS / Linux:
-  ```bash
-  python3 -m venv venv
-  source venv/bin/activate
   ```
 
 ### 2) Actualizar herramientas de instalación
@@ -87,14 +81,7 @@ python -m pip install --upgrade pip setuptools wheel
   pip install https://github.com/kivymd/KivyMD/archive/master.zip
   ```
 
-### 4) Ejecutar el proyecto
-```bash
-python main.py
-```
-
-Al primer arranque se crea e inicializa la base `app/renu.db` con datos de ejemplo (tips, materiales, desafíos), y se sincronizan imágenes desde `assets/images`.
-
-### 5) Conectarse a la base de datos (SQLite) con Database Client
+### 4) Conectarse a la base de datos (SQLite) con Database Client
 1. Asegúrate de haber corrido la app una vez para que se genere `app/renu.db`.
 2. En VS Code instala estas extensiones:
    - "Database Client" (autor: cweijan)
@@ -109,6 +96,12 @@ Al primer arranque se crea e inicializa la base `app/renu.db` con datos de ejemp
    SELECT COUNT(*) AS tips FROM tips;
    SELECT COUNT(*) AS challenges FROM challenges;
    ```
+### 5) Ejecutar el proyecto
+```bash
+python main.py
+```
+
+Al primer arranque se crea e inicializa la base `app/renu.db` con datos de ejemplo (tips, materiales, desafíos), y se sincronizan imágenes desde `assets/images`.
 
 ### 6) Comandos útiles
 - Desactivar el entorno virtual:
@@ -119,20 +112,6 @@ Al primer arranque se crea e inicializa la base `app/renu.db` con datos de ejemp
   ```bash
   pip install --upgrade https://github.com/kivymd/KivyMD/archive/master.zip
   ```
-
-### 7) Solución de problemas
-- No se activa el entorno en PowerShell:
-  ```powershell
-  Set-ExecutionPolicy -Scope CurrentUser RemoteSigned -Force
-  .\venv\Scripts\Activate.ps1
-  ```
-- Error al instalar Kivy en Windows:
-  - Verifica Python 3.10/3.11.
-  - Asegúrate de haber actualizado `pip`, `setuptools` y `wheel`.
-  - Cierra y reabre la terminal tras instalar Python o agregarlo al PATH.
-- La app no crea la base de datos:
-  - Ejecuta `python main.py` desde la raíz del proyecto (donde está `main.py`).
-  - Confirma permisos de escritura en la carpeta `app/`.
 
 ## Ejemplo de acceso a persistencia (sqlite3)
 El proyecto usa un servicio delgado (`StorageService`) que envuelve `sqlite3` y activa FKs:
