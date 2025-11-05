@@ -75,5 +75,7 @@ Repositorios de ejemplo:
 - `diagrams/*`: ERD y documentación de datos
 - `data/schema.sql`: script SQL del esquema
 
-## Notas de diseño
-- Campos booleanos como `is_featured`, `is_weekly` e `is_open` se representan como INTEGER (0/1) por compatibilidad con SQLite.
+## IA Utilizadas
+- Cursor IDE para construcción de codigo y desarrollo más rapido.
+- ChatGPT para consultas
+
