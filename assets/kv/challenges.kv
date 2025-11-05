@@ -1,0 +1,66 @@
+#:import dp kivy.metrics.dp
+#:import sp kivy.metrics.sp
+
+<ChallengesScreen>:
+    MDScrollView:
+        MDBoxLayout:
+            orientation: "vertical"
+            padding: dp(16)
+            spacing: dp(16)
+            size_hint_y: None
+            height: self.minimum_height
+
+            # Filtros
+            MDBoxLayout:
+                spacing: dp(10)
+                size_hint_y: None
+                height: dp(44)
+                MDButton:
+                    style: "tonal"
+                    size_hint: None, None
+                    width: dp(88)
+                    height: dp(40)
+                    on_release: root.apply_filter("Todos")
+                    MDButtonText:
+                        text: "Todos"
+                MDButton:
+                    style: "tonal"
+                    size_hint: None, None
+                    width: dp(88)
+                    height: dp(40)
+                    on_release: root.apply_filter("Diarios")
+                    MDButtonText:
+                        text: "Diarios"
+                MDButton:
+                    style: "tonal"
+                    size_hint: None, None
+                    width: dp(88)
+                    height: dp(40)
+                    on_release: root.apply_filter("Semanales")
+                    MDButtonText:
+                        text: "Semanales"
+                MDButton:
+                    style: "tonal"
+                    size_hint: None, None
+                    width: dp(120)
+                    height: dp(40)
+                    on_release: root.apply_filter("Completados")
+                    MDButtonText:
+                        text: "Completados"
+
+            MDLabel:
+                text: "Desafíos activos"
+                font_size: sp(18)
+                size_hint_y: None
+                height: self.texture_size[1]
+                text_size: self.width, None
+
+            # Lista dinámica de desafíos
+            MDBoxLayout:
+                id: challenges_list
+                orientation: "vertical"
+                spacing: dp(14)
+                size_hint_y: None
+                height: self.minimum_height
+
+

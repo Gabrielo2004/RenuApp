@@ -1,0 +1,131 @@
+#:import dp kivy.metrics.dp
+#:import sp kivy.metrics.sp
+
+<HomeScreen>:
+    MDScrollView:
+        MDBoxLayout:
+            orientation: "vertical"
+            padding: dp(16)
+            spacing: dp(16)
+            size_hint_y: None
+            height: self.minimum_height
+
+            # Bloque 1: Carrusel de fotos (imagen + texto)
+            MDCard:
+                radius: [16]
+                padding: dp(0)
+                size_hint_y: None
+                height: dp(280)
+                elevation: 1
+                MDBoxLayout:
+                    orientation: "vertical"
+                    Carousel:
+                        id: photos_carousel
+                        direction: 'right'
+                        loop: True
+
+            # Separador visual
+            Widget:
+                size_hint_y: None
+                height: dp(12)
+
+            # Bloque 2: Desafío semanal (mock) dentro de contenedor propio
+            MDBoxLayout:
+                orientation: "vertical"
+                size_hint_y: None
+                height: dp(160)
+                MDCard:
+                    radius: [16]
+                    padding: dp(16)
+                    size_hint: 1, 1
+                    elevation: 1
+                    MDBoxLayout:
+                        orientation: "vertical"
+                        spacing: dp(8)
+                        MDBoxLayout:
+                            spacing: dp(8)
+                            size_hint_y: None
+                            height: self.minimum_height
+                            MDIcon:
+                                icon: "trophy-outline"
+                            MDBoxLayout:
+                                orientation: "vertical"
+                                size_hint_y: None
+                                height: self.minimum_height
+                                MDLabel:
+                                    text: "Desafío Semanal"
+                                    font_size: sp(22)
+                                    size_hint_y: None
+                                    height: self.texture_size[1]
+                                    text_size: self.width, None
+                                MDLabel:
+                                    text: "Recicla 5 envases esta semana"
+                                    theme_text_color: "Secondary"
+                                    font_size: sp(16)
+                                    size_hint_y: None
+                                    height: self.texture_size[1]
+                                    text_size: self.width, None
+                        MDLinearProgressIndicator:
+                            value: 60
+                            size_hint_y: None
+                            height: dp(15)
+                        MDBoxLayout:
+                            spacing: dp(8)
+                            size_hint_y: None
+                            height: self.minimum_height
+                            MDLabel:
+                                text: "3/5"
+                                theme_text_color: "Secondary"
+                            Widget:
+                            MDButton:
+                                style: "filled"
+                                MDButtonText:
+                                    text: "Registrar reciclaje"
+
+            # Separador visual
+            Widget:
+                size_hint_y: None
+                height: dp(12)
+
+            # Bloque 3: Métricas (grid 3→2 cols)
+            MDGridLayout:
+                cols: 3 if self.width >= dp(480) else 2
+                spacing: dp(12)
+                size_hint_y: None
+                height: self.minimum_height
+                MetricCard:
+                    MDBoxLayout:
+                        orientation: "vertical"
+                        spacing: dp(6)
+                        MDIcon:
+                            icon: "recycle-variant"
+                        MDLabel:
+                            text: "248"
+                        MDLabel:
+                            text: "Kg Reciclados"
+                            theme_text_color: "Secondary"
+                MetricCard:
+                    MDBoxLayout:
+                        orientation: "vertical"
+                        spacing: dp(6)
+                        MDIcon:
+                            icon: "leaf"
+                        MDLabel:
+                            text: "1,540"
+                        MDLabel:
+                            text: "Puntos Verdes"
+                            theme_text_color: "Secondary"
+                MetricCard:
+                    MDBoxLayout:
+                        orientation: "vertical"
+                        spacing: dp(6)
+                        MDIcon:
+                            icon: "account-group"
+                        MDLabel:
+                            text: "89"
+                        MDLabel:
+                            text: "Comunidad"
+                            theme_text_color: "Secondary"
+
+
+

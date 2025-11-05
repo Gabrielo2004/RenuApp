@@ -1,0 +1,187 @@
+#:import dp kivy.metrics.dp
+#:import sp kivy.metrics.sp
+#:import FitImage kivymd.uix.fitimage.FitImage
+#:import sp kivy.metrics.sp
+
+<TipsScreen>:
+    MDScrollView:
+        MDBoxLayout:
+            orientation: "vertical"
+            padding: dp(16)
+            spacing: dp(16)
+            size_hint_y: None
+            height: self.minimum_height
+
+            # Filtros (mock chips)
+            MDBoxLayout:
+                spacing: dp(10)
+                size_hint_y: None
+                height: dp(44)
+                MDButton:
+                    style: "tonal"
+                    size_hint: None, None
+                    width: dp(88)
+                    height: dp(40)
+                    MDButtonText:
+                        text: "Todos"
+                MDButton:
+                    style: "tonal"
+                    size_hint: None, None
+                    width: dp(88)
+                    height: dp(40)
+                    MDButtonText:
+                        text: "Básico"
+                MDButton:
+                    style: "tonal"
+                    size_hint: None, None
+                    width: dp(88)
+                    height: dp(40)
+                    MDButtonText:
+                        text: "Agua"
+                MDButton:
+                    style: "tonal"
+                    size_hint: None, None
+                    width: dp(88)
+                    height: dp(40)
+                    MDButtonText:
+                        text: "Energía"
+
+            # Destacado (hero)
+            MDCard:
+                radius: [16]
+                padding: 0
+                size_hint_y: None
+                height: dp(200)
+                FloatLayout:
+                    FitImage:
+                        source: ""  # placeholder; puedes asignar imagen real luego
+                        allow_stretch: True
+                        keep_ratio: False
+                        size_hint: 1, 1
+                    MDBoxLayout:
+                        orientation: "vertical"
+                        padding: dp(16)
+                        size_hint: 1, None
+                        height: dp(120)
+                        pos_hint: {"x": 0, "y": 0}
+                        canvas.before:
+                            Color:
+                                rgba: 0, 0, 0, 0.4
+                            Rectangle:
+                                pos: self.pos
+                                size: self.size
+                        MDLabel:
+                            text: "Guía Completa de Reciclaje para Estudiantes"
+                            color: 1,1,1,1
+                            font_size: sp(18)
+                            size_hint_y: None
+                            halign: "left"
+                            text_size: self.width, None
+                            height: self.texture_size[1]
+                            shorten: True
+                            max_lines: 2
+                        MDLabel:
+                            text: "Todo lo que necesitas saber para reciclar..."
+                            color: 1,1,1,1
+                            font_size: sp(14)
+                            size_hint_y: None
+                            halign: "left"
+                            text_size: self.width, None
+                            height: self.texture_size[1]
+                            shorten: True
+                            max_lines: 3
+
+            # Lista de consejos
+            MDBoxLayout:
+                orientation: "vertical"
+                spacing: dp(16)
+                size_hint_y: None
+                height: self.minimum_height
+                MDCard:
+                    radius: [16]
+                    padding: dp(16)
+                    size_hint_y: None
+                    height: self.minimum_height
+                    MDBoxLayout:
+                        orientation: "vertical"
+                        spacing: dp(8)
+                        size_hint_y: None
+                        height: self.minimum_height
+                        MDLabel:
+                            text: "Separación de Plásticos"
+                            font_size: sp(16)
+                            size_hint_y: None
+                            halign: "left"
+                            text_size: self.width, None
+                            height: self.texture_size[1]
+                            shorten: True
+                            max_lines: 2
+                        MDLabel:
+                            text: "Aprende a identificar los diferentes tipos de plástico..."
+                            theme_text_color: "Secondary"
+                            font_size: sp(14)
+                            size_hint_y: None
+                            halign: "left"
+                            text_size: self.width, None
+                            height: self.texture_size[1]
+                            shorten: True
+                            max_lines: 3
+                        MDBoxLayout:
+                            spacing: dp(6)
+                            size_hint_y: None
+                            height: self.minimum_height
+                            MDCard:
+                                padding: dp(6)
+                                radius: [12]
+                                MDLabel:
+                                    text: "Fácil"
+                            MDCard:
+                                padding: dp(6)
+                                radius: [12]
+                                MDLabel:
+                                    text: "Alto impacto"
+                MDCard:
+                    radius: [16]
+                    padding: dp(16)
+                    size_hint_y: None
+                    height: self.minimum_height
+                    MDBoxLayout:
+                        orientation: "vertical"
+                        spacing: dp(8)
+                        size_hint_y: None
+                        height: self.minimum_height
+                        MDLabel:
+                            text: "Reduce el Consumo de Agua"
+                            font_size: sp(16)
+                            size_hint_y: None
+                            halign: "left"
+                            text_size: self.width, None
+                            height: self.texture_size[1]
+                            shorten: True
+                            max_lines: 2
+                        MDLabel:
+                            text: "Pequeños cambios en tu rutina diaria..."
+                            theme_text_color: "Secondary"
+                            font_size: sp(14)
+                            size_hint_y: None
+                            halign: "left"
+                            text_size: self.width, None
+                            height: self.texture_size[1]
+                            shorten: True
+                            max_lines: 3
+                        MDBoxLayout:
+                            spacing: dp(6)
+                            size_hint_y: None
+                            height: self.minimum_height
+                            MDCard:
+                                padding: dp(6)
+                                radius: [12]
+                                MDLabel:
+                                    text: "Fácil"
+                            MDCard:
+                                padding: dp(6)
+                                radius: [12]
+                                MDLabel:
+                                    text: "Medio impacto"
+
+

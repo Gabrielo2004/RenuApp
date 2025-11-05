@@ -1,0 +1,131 @@
+#:import dp kivy.metrics.dp
+#:import sp kivy.metrics.sp
+#:import FitImage kivymd.uix.fitimage.FitImage
+
+<LoginScreen>:
+    AnchorLayout:
+        anchor_x: "center"
+        anchor_y: "center"
+        padding: dp(16)
+        MDBoxLayout:
+            orientation: "vertical"
+            size_hint: None, None
+            width: dp(360)
+            height: self.minimum_height
+            spacing: dp(12)
+            MDCard:
+                orientation: "vertical"
+                size_hint: 1, None
+                height: self.minimum_height
+                radius: [16]
+                padding: dp(16)
+                spacing: dp(12)
+                AnchorLayout:
+                    size_hint_y: None
+                    height: dp(96)
+                    anchor_x: "center"
+                    anchor_y: "center"
+                    FitImage:
+                        source: "assets/images/Renü logo.png"
+                        size_hint: None, None
+                        size: dp(96), dp(96)
+                MDTextField:
+                    id: username
+                    mode: "filled"
+                    size_hint_y: None
+                    height: dp(56)
+                    MDTextFieldHintText:
+                        text: "Usuario (usuario)"
+                MDTextField:
+                    id: password
+                    mode: "filled"
+                    password: True
+                    size_hint_y: None
+                    height: dp(56)
+                    MDTextFieldHintText:
+                        text: "Contraseña (123456)"
+                MDButton:
+                    style: "filled"
+                    size_hint_y: None
+                    height: dp(44)
+                    on_release: root.do_login()
+                    MDButtonText:
+                        text: "Iniciar sesión"
+                MDButton:
+                    style: "tonal"
+                    size_hint_y: None
+                    height: dp(40)
+                    on_release: root.goto_register()
+                    MDButtonText:
+                        text: "Crear cuenta"
+
+<RegisterScreen>:
+    AnchorLayout:
+        anchor_x: "center"
+        anchor_y: "center"
+        padding: dp(16)
+        MDBoxLayout:
+            orientation: "vertical"
+            size_hint: None, None
+            width: dp(360)
+            height: self.minimum_height
+            spacing: dp(12)
+            MDCard:
+                orientation: "vertical"
+                size_hint: 1, None
+                height: self.minimum_height
+                radius: [16]
+                padding: dp(16)
+                spacing: dp(12)
+                MDLabel:
+                    text: "Crear cuenta"
+                    font_size: sp(18)
+                    size_hint_y: None
+                    height: self.texture_size[1]
+                    text_size: self.width, None
+                MDTextField:
+                    id: reg_username
+                    mode: "filled"
+                    size_hint_y: None
+                    height: dp(56)
+                    MDTextFieldHintText:
+                        text: "Usuario (ej: gabriel)"
+                MDTextField:
+                    id: reg_email
+                    mode: "filled"
+                    size_hint_y: None
+                    height: dp(56)
+                    MDTextFieldHintText:
+                        text: "Email (ej: usuario@correo.com)"
+                MDTextField:
+                    id: reg_password
+                    mode: "filled"
+                    password: True
+                    size_hint_y: None
+                    height: dp(56)
+                    MDTextFieldHintText:
+                        text: "Contraseña (mín. 6)"
+                MDTextField:
+                    id: reg_confirm
+                    mode: "filled"
+                    password: True
+                    size_hint_y: None
+                    height: dp(56)
+                    MDTextFieldHintText:
+                        text: "Confirmar contraseña"
+                MDButton:
+                    style: "filled"
+                    size_hint_y: None
+                    height: dp(44)
+                    on_release: root.do_register()
+                    MDButtonText:
+                        text: "Registrarse"
+                MDButton:
+                    style: "tonal"
+                    size_hint_y: None
+                    height: dp(40)
+                    on_release: root.go_back()
+                    MDButtonText:
+                        text: "Volver"
+
+
