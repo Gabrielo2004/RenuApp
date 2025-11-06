@@ -4,7 +4,7 @@
 
  | ID | Módulo | Descripción | Datos de entrada | Resultado esperado | Tipo |
  |---|---|---|---|---|---|
- | TST01 | Login | Validar ingreso con credenciales correctas | usuario="user1"; clave="secret123" | Cambia a pantalla "home" y mensaje "Bienvenido" | F |
+ | TST01 | Login | Validar ingreso con credenciales correctas | usuario="usuario"; clave="123456" | Cambia a pantalla "home" y mensaje "Bienvenido" | F |
  | TST02 | Login | Mostrar error con credenciales inválidas | usuario="user1"; clave="err" | Mensaje "Usuario o contraseña incorrectos" | F |
  | TST03 | Registro | Verificar error con usuario duplicado | usuario="nuevo" ya existente | Mensaje "El usuario ya existe" | U |
  | TST04 | Registro | Validar longitud mínima de contraseña | clave="123" | Mensaje "al menos 6 caracteres" | U |
