@@ -10,9 +10,6 @@
             size_hint_y: None
             height: self.minimum_height
 
-            # -----------------------------------------
-            #   B L O Q U E   1 — CARRUSEL
-            # -----------------------------------------
             MDCard:
                 radius: [20]
                 elevation: 2
@@ -25,18 +22,16 @@
                     loop: True
                     direction: "right"
 
-            # -----------------------------------------
+            # SEPARADOR
             Widget:
                 size_hint_y: None
                 height: dp(12)
 
-            # -----------------------------------------
-            #   B L O Q U E   2 — DESAFÍO SEMANAL
-            # -----------------------------------------
+            # DESAFIO SEMANAL
             MDCard:
                 radius: [20]
-                padding: dp(16)
                 elevation: 2
+                padding: dp(16)
                 adaptive_height: True
 
                 MDBoxLayout:
@@ -73,13 +68,14 @@
 
                     MDLinearProgressIndicator:
                         id: weekly_progress
-                        value: root.progress_percent
                         size_hint_y: None
                         height: dp(12)
+                        value: root.progress_percent
 
                     MDBoxLayout:
                         size_hint_y: None
                         height: dp(40)
+                        spacing: dp(10)
 
                         MDLabel:
                             id: weekly_progress_label
@@ -92,16 +88,20 @@
                             style: "filled"
                             on_release: root.register_recycling()
                             MDButtonText:
-                                text: "Registrar reciclaje"
+                                text: "Registrar"
 
-            # -----------------------------------------
+                        MDButton:
+                            style: "outlined"
+                            on_release: root.reset_weekly_progress()
+                            MDButtonText:
+                                text: "Reiniciar"
+
+            # SEPARADOR
             Widget:
                 size_hint_y: None
                 height: dp(12)
 
-            # -----------------------------------------
-            #   B L O Q U E   3 — MÉTRICAS (GRID)
-            # -----------------------------------------
+            # MÉTRICAS (mock)
             MDGridLayout:
                 cols: 3 if self.width >= dp(480) else 2
                 spacing: dp(12)

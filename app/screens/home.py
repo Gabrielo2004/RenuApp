@@ -1,8 +1,9 @@
+# app/screens/home.py — VERSIÓN FINAL
+
 from kivy.app import App
 from kivy.properties import NumericProperty, StringProperty
 from kivy.uix.carousel import Carousel
 from kivy.uix.floatlayout import FloatLayout
-from kivy.uix.widget import Widget
 from kivymd.uix.screen import MDScreen
 from kivymd.uix.boxlayout import MDBoxLayout
 from kivymd.uix.fitimage import FitImage
@@ -11,6 +12,7 @@ from kivy.metrics import sp
 from kivy.clock import Clock
 from pathlib import Path
 from os.path import exists
+from kivymd.uix.label import MDLabel
 
 
 class HomeScreen(MDScreen):
@@ -23,48 +25,38 @@ class HomeScreen(MDScreen):
     progress_percent = NumericProperty(0.0)
     _weekly_id = NumericProperty(0)
 
-    def on_kv_post(self, base_widget):
+    def on_kv_post(self, _):
         app = App.get_running_app()
 
-        # --- 1. Cargar desafío semanal ---
         weekly = app.challenges_repo.get_weekly()
         if weekly:
-            cid, title, desc, target, unit, points, is_weekly = weekly
+            cid, t, d, target, unit, pts, is_weekly = weekly
             self._weekly_id = cid
-            self.weekly_title = title
-            self.weekly_desc = desc
+            self.weekly_title = t
+            self.weekly_desc = d
             self.weekly_target = target
             self.weekly_progress = app.challenges_repo.get_progress(cid)
-            self._recompute_progress()
+            self._compute_progress()
 
-        # --- 2. Cargar carrusel de imágenes ---
         self._load_carousel()
+        self._update_progress_ui()
 
-        # --- 3. Actualizar barra de progreso ---
-        self._update_ui_progress()
-
+    # CARRUSEL
     def _load_carousel(self):
         images_dir = Path("assets/images")
         exts = {".jpg", ".jpeg", ".png", ".webp"}
 
-        image_paths = []
-        if images_dir.exists():
-            for p in sorted(images_dir.iterdir()):
-                if p.suffix.lower() in exts and "logo" not in p.name.lower():
-                    image_paths.append(str(p))
+        image_paths = [
+            str(p) for p in sorted(images_dir.iterdir())
+            if p.suffix.lower() in exts and "logo" not in p.name.lower()
+        ] if images_dir.exists() else []
 
-        carousel: Carousel = self.ids.get("photos_carousel")
-
-        if carousel is None:
-            return
-
+        carousel = self.ids.photos_carousel
         carousel.clear_widgets()
 
-        # Consejos destacados asociados
-        app = App.get_running_app()
-        tips = app.tips_repo.featured(limit=len(image_paths))
+        tips = App.get_running_app().tips_repo.featured(limit=len(image_paths))
 
-        for idx, img_path in enumerate(image_paths):
+        for i, img_path in enumerate(image_paths):
             slide = FloatLayout()
 
             if exists(img_path):
@@ -72,7 +64,6 @@ class HomeScreen(MDScreen):
                 bg.size_hint = (1, 1)
                 slide.add_widget(bg)
 
-            # Overlay oscuro con texto
             overlay = MDBoxLayout(
                 orientation="vertical",
                 padding="16dp",
@@ -82,52 +73,46 @@ class HomeScreen(MDScreen):
                 pos_hint={"x": 0, "y": 0}
             )
 
-            # Fondo negro transparente
             with overlay.canvas.before:
                 Color(0, 0, 0, 0.40)
                 rect = Rectangle(size=overlay.size, pos=overlay.pos)
 
-            def sync_rect(instance, value, r=rect, ov=overlay):
+            def sync(_, __, r=rect, ov=overlay):
                 r.pos = ov.pos
                 r.size = ov.size
 
-            overlay.bind(pos=sync_rect, size=sync_rect)
-            sync_rect(None, None)
+            overlay.bind(pos=sync, size=sync)
+            sync(None, None)
 
-            # Título del tip
-            if idx < len(tips):
-                title, desc = tips[idx][1], tips[idx][2]
-            else:
-                title, desc = "", ""
-
-            from kivymd.uix.label import MDLabel
+            title = tips[i][1] if i < len(tips) else ""
+            body = tips[i][2] if i < len(tips) else ""
 
             if title:
-                lbl = MDLabel(
+                h1 = MDLabel(
                     text=title,
-                    text_color=(1, 1, 1, 1),
-                    font_size=sp(21),
+                    font_size=sp(24),
+                    bold=True,
+                    text_color=(1,1,1,1),
                     halign="left",
                     size_hint_y=None
                 )
-                lbl.bind(texture_size=lambda inst, val: setattr(inst, "height", val[1]))
-                overlay.add_widget(lbl)
+                h1.bind(texture_size=lambda inst,v: setattr(inst,"height",v[1]))
+                overlay.add_widget(h1)
 
-            if desc:
-                desc_lbl = MDLabel(
-                    text=desc,
-                    text_color=(1, 1, 1, 1),
-                    font_size=sp(15),
+            if body:
+                p = MDLabel(
+                    text=body,
+                    font_size=sp(16),
+                    text_color=(1,1,1,1),
                     halign="left",
                     size_hint_y=None
                 )
-                desc_lbl.bind(texture_size=lambda inst, val: setattr(inst, "height", val[1]))
-                overlay.add_widget(desc_lbl)
+                p.bind(texture_size=lambda inst,v: setattr(inst,"height",v[1]))
+                overlay.add_widget(p)
 
             slide.add_widget(overlay)
             carousel.add_widget(slide)
 
-        # Autoplay
         if len(image_paths) > 1:
             if hasattr(self, "_carousel_ev"):
                 self._carousel_ev.cancel()
@@ -135,24 +120,36 @@ class HomeScreen(MDScreen):
                 lambda dt: carousel.load_next(), 5
             )
 
+    # PROGRESO
     def register_recycling(self):
         if not self._weekly_id:
             return
+
+        if self.weekly_progress >= self.weekly_target:
+            return
+
         app = App.get_running_app()
         self.weekly_progress = app.challenges_repo.increment_progress(self._weekly_id, 1)
-        self._recompute_progress()
-        self._update_ui_progress()
+        self._compute_progress()
+        self._update_progress_ui()
 
-    def _recompute_progress(self):
-        target = max(1, int(self.weekly_target))
-        progress = int(self.weekly_progress)
-        self.progress_percent = min(100, (progress / target) * 100)
-        self.progress_text = f"{progress}/{target}"
+    def reset_weekly_progress(self):
+        if not self._weekly_id:
+            return
+        app = App.get_running_app()
+        app.challenges_repo.set_progress(self._weekly_id, 0)
+        self.weekly_progress = 0
+        self._compute_progress()
+        self._update_progress_ui()
 
-    def _update_ui_progress(self):
-        bar = self.ids.get("weekly_progress")
-        lbl = self.ids.get("weekly_progress_label")
-        if bar:
-            bar.value = self.progress_percent
-        if lbl:
-            lbl.text = self.progress_text
+    def _compute_progress(self):
+        t = max(1, int(self.weekly_target))
+        p = int(self.weekly_progress)
+        self.progress_percent = min(100, (p / t) * 100)
+        self.progress_text = f"{p}/{t}"
+
+    def _update_progress_ui(self):
+        bar = self.ids.weekly_progress
+        txt = self.ids.weekly_progress_label
+        bar.value = self.progress_percent
+        txt.text = self.progress_text
