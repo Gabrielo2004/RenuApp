@@ -10,122 +10,115 @@
             size_hint_y: None
             height: self.minimum_height
 
-            # Bloque 1: Carrusel de fotos (imagen + texto)
+            # -----------------------------------------
+            #   B L O Q U E   1 — CARRUSEL
+            # -----------------------------------------
             MDCard:
-                radius: [16]
-                padding: dp(0)
+                radius: [20]
+                elevation: 2
                 size_hint_y: None
-                height: dp(280)
-                elevation: 1
+                height: dp(260)
+                padding: 0
+
+                Carousel:
+                    id: photos_carousel
+                    loop: True
+                    direction: "right"
+
+            # -----------------------------------------
+            Widget:
+                size_hint_y: None
+                height: dp(12)
+
+            # -----------------------------------------
+            #   B L O Q U E   2 — DESAFÍO SEMANAL
+            # -----------------------------------------
+            MDCard:
+                radius: [20]
+                padding: dp(16)
+                elevation: 2
+                adaptive_height: True
+
                 MDBoxLayout:
                     orientation: "vertical"
-                    Carousel:
-                        id: photos_carousel
-                        direction: 'right'
-                        loop: True
+                    spacing: dp(8)
+                    adaptive_height: True
 
-            # Separador visual
-            Widget:
-                size_hint_y: None
-                height: dp(12)
-
-            # Bloque 2: Desafío semanal (mock) dentro de contenedor propio
-            MDBoxLayout:
-                orientation: "vertical"
-                size_hint_y: None
-                height: dp(160)
-                MDCard:
-                    radius: [16]
-                    padding: dp(16)
-                    size_hint: 1, 1
-                    elevation: 1
                     MDBoxLayout:
-                        orientation: "vertical"
                         spacing: dp(8)
-                        MDBoxLayout:
-                            spacing: dp(8)
-                            size_hint_y: None
-                            height: self.minimum_height
-                            MDIcon:
-                                icon: "trophy-outline"
-                            MDBoxLayout:
-                                orientation: "vertical"
-                                size_hint_y: None
-                                height: self.minimum_height
-                                MDLabel:
-                                    text: "Desafío Semanal"
-                                    font_size: sp(22)
-                                    size_hint_y: None
-                                    height: self.texture_size[1]
-                                    text_size: self.width, None
-                                MDLabel:
-                                    text: "Recicla 5 envases esta semana"
-                                    theme_text_color: "Secondary"
-                                    font_size: sp(16)
-                                    size_hint_y: None
-                                    height: self.texture_size[1]
-                                    text_size: self.width, None
-                        MDLinearProgressIndicator:
-                            value: 60
-                            size_hint_y: None
-                            height: dp(15)
-                        MDBoxLayout:
-                            spacing: dp(8)
-                            size_hint_y: None
-                            height: self.minimum_height
-                            MDLabel:
-                                text: "3/5"
-                                theme_text_color: "Secondary"
-                            Widget:
-                            MDButton:
-                                style: "filled"
-                                MDButtonText:
-                                    text: "Registrar reciclaje"
+                        adaptive_height: True
 
-            # Separador visual
+                        MDIcon:
+                            icon: "trophy-outline"
+                            size_hint: None, None
+                            size: dp(36), dp(36)
+
+                        MDBoxLayout:
+                            orientation: "vertical"
+                            adaptive_height: True
+
+                            MDLabel:
+                                text: root.weekly_title
+                                font_size: sp(21)
+                                bold: True
+                                size_hint_y: None
+                                height: self.texture_size[1]
+
+                            MDLabel:
+                                text: root.weekly_desc
+                                theme_text_color: "Secondary"
+                                font_size: sp(15)
+                                size_hint_y: None
+                                height: self.texture_size[1]
+
+                    MDLinearProgressIndicator:
+                        id: weekly_progress
+                        value: root.progress_percent
+                        size_hint_y: None
+                        height: dp(12)
+
+                    MDBoxLayout:
+                        size_hint_y: None
+                        height: dp(40)
+
+                        MDLabel:
+                            id: weekly_progress_label
+                            text: root.progress_text
+                            theme_text_color: "Secondary"
+
+                        Widget:
+
+                        MDButton:
+                            style: "filled"
+                            on_release: root.register_recycling()
+                            MDButtonText:
+                                text: "Registrar reciclaje"
+
+            # -----------------------------------------
             Widget:
                 size_hint_y: None
                 height: dp(12)
 
-            # Bloque 3: Métricas (grid 3→2 cols)
+            # -----------------------------------------
+            #   B L O Q U E   3 — MÉTRICAS (GRID)
+            # -----------------------------------------
             MDGridLayout:
                 cols: 3 if self.width >= dp(480) else 2
                 spacing: dp(12)
                 size_hint_y: None
                 height: self.minimum_height
-                MetricCard:
-                    MDBoxLayout:
-                        orientation: "vertical"
-                        spacing: dp(6)
-                        MDIcon:
-                            icon: "recycle-variant"
-                        MDLabel:
-                            text: "248"
-                        MDLabel:
-                            text: "Kg Reciclados"
-                            theme_text_color: "Secondary"
-                MetricCard:
-                    MDBoxLayout:
-                        orientation: "vertical"
-                        spacing: dp(6)
-                        MDIcon:
-                            icon: "leaf"
-                        MDLabel:
-                            text: "1,540"
-                        MDLabel:
-                            text: "Puntos Verdes"
-                            theme_text_color: "Secondary"
-                MetricCard:
-                    MDBoxLayout:
-                        orientation: "vertical"
-                        spacing: dp(6)
-                        MDIcon:
-                            icon: "account-group"
-                        MDLabel:
-                            text: "89"
-                        MDLabel:
-                            text: "Comunidad"
-                            theme_text_color: "Secondary"
 
+                MetricCard:
+                    icon: "recycle-variant"
+                    title: "248"
+                    subtitle: "Kg Reciclados"
 
+                MetricCard:
+                    icon: "leaf"
+                    title: "1,540"
+                    subtitle: "Puntos Verdes"
 
+                MetricCard:
+                    icon: "account-group"
+                    title: "89"
+                    subtitle: "Comunidad"
