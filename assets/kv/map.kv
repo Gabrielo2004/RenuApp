@@ -10,55 +10,79 @@
             size_hint_y: None
             height: self.minimum_height
 
-            # Bloque 1: Mapa
+            # Mapa
             MDCard:
                 radius: [16]
                 size_hint_y: None
                 height: dp(260)
+
                 MDBoxLayout:
                     id: map_container
+                    size_hint: 1, 1
 
-            # Espaciador bajo el mapa
             Widget:
                 size_hint_y: None
                 height: dp(12)
 
-            # Acciones
+            # Botones de filtros
             MDBoxLayout:
                 spacing: dp(10)
                 size_hint_y: None
                 height: dp(44)
+
                 MDButton:
                     style: "tonal"
-                    on_release: root.toggle_filter("Papel")
                     size_hint: None, None
                     width: dp(88)
                     height: dp(40)
+                    on_release: root.toggle_filter("Papel")
                     MDButtonText:
                         text: "Papel"
+
                 MDButton:
                     style: "tonal"
-                    on_release: root.toggle_filter("Plástico")
                     size_hint: None, None
                     width: dp(88)
                     height: dp(40)
+                    on_release: root.toggle_filter("Plástico")
                     MDButtonText:
                         text: "Plástico"
+
                 MDButton:
                     style: "tonal"
-                    on_release: root.toggle_filter("Vidrio")
                     size_hint: None, None
                     width: dp(88)
                     height: dp(40)
+                    on_release: root.toggle_filter("Vidrio")
                     MDButtonText:
                         text: "Vidrio"
-                Widget:
+
                 MDButton:
                     style: "tonal"
-                    on_release: root.open_route()
                     size_hint: None, None
                     width: dp(88)
                     height: dp(40)
+                    on_release: root.toggle_filter("Cartón")
+                    MDButtonText:
+                        text: "Cartón"
+
+                MDButton:
+                    style: "tonal"
+                    size_hint: None, None
+                    width: dp(88)
+                    height: dp(40)
+                    on_release: root.toggle_filter("Latas")
+                    MDButtonText:
+                        text: "Latas"
+
+                Widget:
+
+                MDButton:
+                    style: "tonal"
+                    size_hint: None, None
+                    width: dp(88)
+                    height: dp(40)
+                    on_release: root.open_route()
                     MDButtonText:
                         text: "Ruta"
 
@@ -67,19 +91,14 @@
                 font_size: sp(18)
                 size_hint_y: None
                 height: self.texture_size[1]
-                text_size: self.width, None
 
-            # Margen adicional bajo el título para evitar que las cards lo alcancen
             Widget:
                 size_hint_y: None
                 height: dp(8)
 
-            # Lista de puntos (cards) - se llena desde Python
             MDBoxLayout:
                 id: points_list
                 orientation: "vertical"
                 spacing: dp(16)
                 size_hint_y: None
                 height: self.minimum_height
-
-
