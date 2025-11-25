@@ -54,7 +54,7 @@ class HomeScreen(MDScreen):
         carousel = self.ids.photos_carousel
         carousel.clear_widgets()
 
-        tips = App.get_running_app().tips_repo.featured(limit=len(image_paths))
+        tips = App.get_running_app().tips_repo.list_all(limit=len(image_paths))
 
         for i, img_path in enumerate(image_paths):
             slide = FloatLayout()
@@ -117,7 +117,7 @@ class HomeScreen(MDScreen):
             if hasattr(self, "_carousel_ev"):
                 self._carousel_ev.cancel()
             self._carousel_ev = Clock.schedule_interval(
-                lambda dt: carousel.load_next(), 5
+                lambda dt: carousel.load_next(), 7
             )
 
     # PROGRESO
