@@ -8,7 +8,8 @@ from kivy.metrics import dp
 def normalize(s: str) -> str:
     """Normaliza texto para comparaciones de filtros (minúsculas y sin tildes)."""
     s = (s or "").lower()
-    s = s.replace("á", "a").replace("é", "e").replace("í", "i").replace("ó", "o").replace("ú", "u")
+    for a, b in [("á", "a"), ("é", "e"), ("í", "i"), ("ó", "o"), ("ú", "u")]:
+        s = s.replace(a, b)
     return s.strip()
 
 
@@ -19,10 +20,9 @@ class TipsScreen(MDScreen):
         self._refresh_tips_list()
 
     # -------------------------
-    # Datos estáticos de consejos
+    # Datos estáticos de consejos (SOLO TEXTO)
     # -------------------------
     def _build_tips_data(self):
-        # Cada tip tiene: title, text, tags (para filtros), difficulty, impact
         self._all_tips = [
             {
                 "title": "Separación de Plásticos",
@@ -112,8 +112,11 @@ class TipsScreen(MDScreen):
     # Refrescar lista según filtros activos
     # -------------------------
     def _refresh_tips_list(self):
-        if not hasattr(self, "_all_tips"):
-            self._build_tips_data()
+        container = self.ids.get("tips_list")
+        if not container:
+            return
+
+        container.clear_widgets()
 
         # Filtrado
         if not self._active_filters:
@@ -125,21 +128,15 @@ class TipsScreen(MDScreen):
                 if any(f in t_tags for f in self._active_filters):
                     tips.append(t)
 
-        # Contenedor de cards
-        container = self.ids.get("tips_list")
-        if container is None:
-            return
-
-        container.clear_widgets()
+        # Crear cards
         for tip in tips:
             container.add_widget(self._build_tip_card(tip))
 
     # -------------------------
-    # Construir card de cada consejo
+    # Construir card de cada consejo (SOLO TEXTO)
     # -------------------------
     def _build_tip_card(self, tip: dict) -> MDCard:
         from kivy.metrics import sp as _sp
-        from kivy.clock import Clock
 
         card = MDCard(
             radius=[16],
@@ -182,8 +179,9 @@ class TipsScreen(MDScreen):
         _wrap_label(desc_lbl, root_box, "left")
         root_box.add_widget(desc_lbl)
 
-        # Chips (dificultad, impacto, categorías principales)
+        # Chips
         chips_box = MDBoxLayout(
+            orientation="horizontal",
             spacing=dp(6),
             size_hint_y=None,
         )
@@ -191,15 +189,15 @@ class TipsScreen(MDScreen):
             minimum_height=lambda inst, val: setattr(chips_box, "height", val)
         )
 
-        # Dificultad e impacto
-        difficulty = tip.get("difficulty", "")
-        impact = tip.get("impact", "")
+        # dificultad e impacto
+        difficulty = tip.get("difficulty")
+        impact = tip.get("impact")
         if difficulty:
             chips_box.add_widget(self._build_chip(difficulty))
         if impact:
             chips_box.add_widget(self._build_chip(impact))
 
-        # Categorías (ej: Reciclaje, Agua, Energía, Plantas, Compost)
+        # categorías (ej: Agua, Energía, Plantas...)
         tag_to_label = {
             "basico": "Básico",
             "reciclaje": "Reciclaje",
@@ -209,18 +207,21 @@ class TipsScreen(MDScreen):
             "compost": "Compost",
         }
         for t in tip.get("tags", []):
-            label = tag_to_label.get(normalize(t))
-            if label:
-                chips_box.add_widget(self._build_chip(label))
+            lbl = tag_to_label.get(normalize(t))
+            if lbl:
+                chips_box.add_widget(self._build_chip(lbl))
 
         root_box.add_widget(chips_box)
         card.add_widget(root_box)
 
-        def _update_card_height(*_):
+        # altura de la card según contenido
+        card.size_hint_y = None
+
+        def _update_height(*_):
             card.height = root_box.minimum_height + dp(16)
 
-        root_box.bind(minimum_height=lambda *_a, **_k: _update_card_height())
-        Clock.schedule_once(lambda _dt: _update_card_height())
+        _update_height()
+        root_box.bind(minimum_height=lambda *_a, **_k: _update_height())
 
         return card
 
@@ -233,13 +234,10 @@ class TipsScreen(MDScreen):
             size_hint_y=None,
             elevation=0,
         )
-        label = MDLabel(
+        lbl = MDLabel(
             text=text,
             font_size=_sp(12),
             halign="center",
         )
-        chip.add_widget(label)
-        chip.bind(
-            minimum_height=lambda inst, val: setattr(chip, "height", label.texture_size[1] + dp(8))
-        )
+        chip.add_widget(lbl)
         return chip

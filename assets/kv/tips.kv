@@ -1,6 +1,5 @@
 #:import dp kivy.metrics.dp
 #:import sp kivy.metrics.sp
-#:import FitImage kivymd.uix.fitimage.FitImage
 
 <TipsScreen>:
     MDScrollView:
@@ -11,7 +10,7 @@
             size_hint_y: None
             height: self.minimum_height
 
-            # Filtros
+            # Filtros fila 1
             MDBoxLayout:
                 spacing: dp(10)
                 size_hint_y: None
@@ -29,7 +28,7 @@
                 MDButton:
                     style: "tonal"
                     size_hint: None, None
-                    width: dp(88)
+                    width: dp(90)
                     height: dp(40)
                     on_release: root.toggle_filter("Básico")
                     MDButtonText:
@@ -56,13 +55,13 @@
                 MDButton:
                     style: "tonal"
                     size_hint: None, None
-                    width: dp(88)
+                    width: dp(100)
                     height: dp(40)
                     on_release: root.toggle_filter("Energía")
                     MDButtonText:
                         text: "Energía"
 
-            # Segunda fila de filtros (para no apretar demasiado)
+            # Filtros fila 2
             MDBoxLayout:
                 spacing: dp(10)
                 size_hint_y: None
@@ -88,55 +87,34 @@
 
                 Widget:
 
-            # Destacado (hero)
+            # Hero / título
             MDCard:
                 radius: [16]
-                padding: 0
+                padding: dp(16)
                 size_hint_y: None
-                height: dp(200)
+                height: dp(120)
 
-                FloatLayout:
-                    FitImage:
-                        # Cambia esto a una imagen real de tu proyecto
-                        source: "assets/images/naturaleza.jpg"
-                        allow_stretch: True
-                        keep_ratio: False
-                        size_hint: 1, 1
+                MDBoxLayout:
+                    orientation: "vertical"
+                    spacing: dp(6)
 
-                    MDBoxLayout:
-                        orientation: "vertical"
-                        padding: dp(16)
-                        size_hint: 1, None
-                        height: dp(120)
-                        pos_hint: {"x": 0, "y": 0}
-                        canvas.before:
-                            Color:
-                                rgba: 0, 0, 0, 0.4
-                            Rectangle:
-                                pos: self.pos
-                                size: self.size
+                    MDLabel:
+                        text: "Guía de hábitos sustentables para tu día a día"
+                        font_size: sp(18)
+                        bold: True
+                        size_hint_y: None
+                        text_size: self.width, None
+                        height: self.texture_size[1]
 
-                        MDLabel:
-                            text: "Guía de hábitos sustentables para tu día a día"
-                            color: 1, 1, 1, 1
-                            font_size: sp(18)
-                            size_hint_y: None
-                            halign: "left"
-                            text_size: self.width, None
-                            height: self.texture_size[1]
-                            shorten: True
-                            max_lines: 2
-
-                        MDLabel:
-                            text: "Consejos simples sobre reciclaje, agua, energía, plantas y compost para estudiantes."
-                            color: 1, 1, 1, 1
-                            font_size: sp(14)
-                            size_hint_y: None
-                            halign: "left"
-                            text_size: self.width, None
-                            height: self.texture_size[1]
-                            shorten: True
-                            max_lines: 3
+                    MDLabel:
+                        text: "Consejos simples sobre reciclaje, agua, energía, plantas y compost pensados para estudiantes."
+                        font_size: sp(14)
+                        theme_text_color: "Secondary"
+                        size_hint_y: None
+                        text_size: self.width, None
+                        height: self.texture_size[1]
+                        max_lines: 3
+                        shorten: True
 
             MDLabel:
                 text: "Consejos recomendados para ti"
